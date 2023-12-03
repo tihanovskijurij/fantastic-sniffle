@@ -1,0 +1,25 @@
+  let group2 = DispatchGroup()
+        queue2.async {
+            for i in 0...5 {
+                
+                group2.enter()
+                self.createWork("2 " + i.description)
+                group2.leave()
+            }
+            
+            group2.notify(queue: .main) {
+                print("work2 finish")
+            }
+        }
+    }
+    
+    func useSemaphore() {
+        let semaphore = DispatchSemaphore(value: 1)
+        
+        queue.async {
+           print("work 1 - wait")
+           semaphore.wait()
+           sleep(2)
+           semaphore.signal()
+           print("work 1 - done")
+        }
